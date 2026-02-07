@@ -18,13 +18,21 @@ import {
   FormControl,
   Toolbar,
   AppBar,
+  ListItemIcon,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import ContactsIcon from "@mui/icons-material/Contacts";
+import ContactsIcon from "@mui/icons-material/PersonOutlined";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import ThemeIcon from "@mui/icons-material/WbSunnyOutlined";
+import PaletteSelectorIcon from "@mui/icons-material/PaletteOutlined";
+import SettingsIcon from "@mui/icons-material/SettingsOutlined";
+
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+// tESTING THEM
+import EditOne from "@mui/icons-material/ModeEditOutlined"; // Selected
 
 const emails = [
   {
@@ -88,11 +96,14 @@ function App() {
         {/* Top Bar */}
         <TopBar account={account} setAccount={setAccount} />
 
-        {/* Email Filters */}
-        <EmailFilters />
+        {/* Second column? */}
+        <Box sx={{ width: 450 }}>
+          {/* Email Filters */}
+          <EmailFilters />
 
-        {/* Email List */}
-        <EmailList />
+          {/* Email List */}
+          <EmailList />
+        </Box>
       </Box>
     </Box>
   );
@@ -104,7 +115,7 @@ function SideBar() {
       <Box
         sx={{
           width: 72,
-          bgcolor: "background.paper",
+          bgcolor: "background.paper" /* Whats paper*/,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -113,23 +124,61 @@ function SideBar() {
           borderColor: "divider",
         }}
       >
-        <Avatar
-          src="https://randomuser.me/api/portraits/men/75.jpg"
-          sx={{ width: 48, height: 48, mb: 4 }}
-        />
-        <IconButton color="primary" sx={{ mb: 3 }}>
+        {/* Edit Button */}
+        <IconButton
+          sx={{
+            width: 40,
+            height: 40,
+            bgcolor: "primary.light",
+            borderRadius: 3,
+            color: "primary.dark",
+            "&:hover": {
+              bgcolor: "primary.dark",
+              color: "white",
+            },
+          }}
+        >
+          <EditOne />
+        </IconButton>
+
+        {/* Inbox Button */}
+        <IconButton color="primary">
           <EmailIcon />
         </IconButton>
-        <IconButton sx={{ mb: 3 }}>
+
+        {/* Calender Button */}
+        <IconButton>
           <CalendarTodayIcon />
         </IconButton>
+
+        {/* Contact Button */}
         <IconButton>
           <ContactsIcon />
         </IconButton>
+
         <Box sx={{ flexGrow: 1 }} />
-        <Badge badgeContent={25} color="error" sx={{ mb: 3 }}>
+
+        {/* For notification */}
+        <Badge badgeContent={25} color="error">
+          {" "}
           <NotificationsIcon />
         </Badge>
+
+        {/* Theme Button */}
+        <IconButton>
+          <ThemeIcon />
+        </IconButton>
+
+        {/* Palette Button */}
+        <IconButton>
+          <PaletteSelectorIcon />
+        </IconButton>
+
+        {/* Settings Button */}
+        <IconButton>
+          <SettingsIcon />
+        </IconButton>
+
         <Avatar src="https://randomuser.me/api/portraits/men/75.jpg" />
       </Box>
     </>
