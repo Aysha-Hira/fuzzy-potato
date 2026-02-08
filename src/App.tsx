@@ -22,10 +22,17 @@ import {
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import ContactsIcon from "@mui/icons-material/Contacts";
+import ContactsIcon from "@mui/icons-material/PersonOutlined";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import ThemeIcon from "@mui/icons-material/WbSunnyOutlined";
+import PaletteSelectorIcon from "@mui/icons-material/PaletteOutlined";
+import SettingsIcon from "@mui/icons-material/SettingsOutlined";
+
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+// tESTING THEM
+import EditOne from "@mui/icons-material/ModeEditOutlined"; // Selected
 
 // tESTING THEM
 import EditOne from "@mui/icons-material/ModeEditOutlined"; // Selected
@@ -92,11 +99,14 @@ function App() {
         {/* Top Bar */}
         <TopBar account={account} setAccount={setAccount} />
 
-        {/* Email Filters */}
-        <EmailFilters />
+        {/* Second column? */}
+        <Box sx={{ width: 450 }}>
+          {/* Email Filters */}
+          <EmailFilters />
 
-        {/* Email List */}
-        <EmailList />
+          {/* Email List */}
+          <EmailList />
+        </Box>
       </Box>
     </Box>
   );
@@ -137,6 +147,8 @@ function SideBar() {
         </IconButton>
 
         {/* Contact Button */}
+
+        {/* Contact Button */}
         <IconButton>
           <ContactsIcon />
         </IconButton>
@@ -148,6 +160,22 @@ function SideBar() {
           {/* For notification */}
           <NotificationsIcon />
         </Badge>
+
+        {/* Theme Button */}
+        <IconButton>
+          <ThemeIcon />
+        </IconButton>
+
+        {/* Palette Button */}
+        <IconButton>
+          <PaletteSelectorIcon />
+        </IconButton>
+
+        {/* Settings Button */}
+        <IconButton>
+          <SettingsIcon />
+        </IconButton>
+
         <Avatar src="https://randomuser.me/api/portraits/men/75.jpg" />
       </Box>
     </>
