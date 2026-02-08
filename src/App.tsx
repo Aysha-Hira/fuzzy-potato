@@ -4,7 +4,6 @@ import {
   Badge,
   Box,
   Button,
-  Checkbox,
   IconButton,
   InputBase,
   List,
@@ -34,50 +33,107 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 // tESTING THEM
 import EditOne from "@mui/icons-material/ModeEditOutlined"; // Selected
 
+// Sample emails
 const emails = [
   {
     id: 1,
     avatar: "https://randomuser.me/api/portraits/men/75.jpg",
     subject: "New Business Opportunities",
     sender: "Jack Smith",
-    snippet: "Dear Sam, Hope this email finds you well. I would like t...",
+    message:
+      "Dear Sam, Hope this email finds you well. I would like to discuss some new business opportunities with you in the upcoming quarter.",
     time: "Now",
-    unreadCount: 3,
+    threadCount: 3,
   },
   {
     id: 2,
     avatar: "https://randomuser.me/api/portraits/women/65.jpg",
     subject: "RE: Project Progress",
     sender: "Sarah Pruett",
-    snippet: "Reminder on the mentioned bell...",
+    message:
+      "Reminder on the mentioned deliverables for the project due next week. Please ensure all tasks are updated in the tracker.",
     time: "Yesterday",
-    unreadCount: 2,
+    threadCount: 2,
   },
   {
     id: 3,
     avatar: "https://randomuser.me/api/portraits/women/43.jpg",
     subject: "LPO Created",
     sender: "Jasmine Fields",
-    snippet:
-      "Hello Sam, Cloud you please sign the issued LPO for the new pur...",
+    message:
+      "Hello Sam, Could you please sign the issued LPO for the new purchase order so we can proceed with procurement?",
     time: "Yesterday",
-    unreadCount: 5,
+    threadCount: 5,
   },
   {
     id: 4,
     avatar: "https://randomuser.me/api/portraits/men/52.jpg",
     subject: "Insurance Requested Documents",
     sender: "Dan Trovalds",
-    snippet: "Dear Sam, I hope my message finds you in your best health ...",
+    message:
+      "Dear Sam, I hope my message finds you in good health. Kindly provide the requested insurance documents at your earliest convenience.",
     time: "02/Feb/2026",
+    threadCount: 1,
   },
   {
     id: 5,
     avatar: "https://randomuser.me/api/portraits/women/33.jpg",
     subject: "Update Request",
     sender: "Christine Woods",
-    snippet: "Dear Sam, I would like you to prepare a detailed project up...",
+    message:
+      "Dear Sam, I would like you to prepare a detailed project update report for the board meeting next week.",
     time: "22/Dec/2025",
+    threadCount: 2,
+  },
+  {
+    id: 6,
+    avatar: "https://randomuser.me/api/portraits/men/30.jpg",
+    subject: "Team Meeting Schedule",
+    sender: "Michael Lee",
+    message:
+      "Hi Sam, The weekly team meeting has been rescheduled to Friday at 10 AM. Please confirm your availability.",
+    time: "21/Dec/2025",
+    threadCount: 1,
+  },
+  {
+    id: 7,
+    avatar: "https://randomuser.me/api/portraits/women/22.jpg",
+    subject: "Invoice Attached",
+    sender: "Emily Carter",
+    message:
+      "Hello Sam, Please find the attached invoice for last month's services. Let me know if any corrections are needed.",
+    time: "20/Dec/2025",
+    threadCount: 1,
+  },
+  {
+    id: 8,
+    avatar: "https://randomuser.me/api/portraits/men/46.jpg",
+    subject: "Client Feedback",
+    sender: "Robert Johnson",
+    message:
+      "Sam, The client provided feedback on the recent project. They are satisfied overall but requested minor changes in the design.",
+    time: "19/Dec/2025",
+    threadCount: 3,
+  },
+  {
+    id: 9,
+    avatar: "https://randomuser.me/api/portraits/women/58.jpg",
+    subject: "Holiday Greetings",
+    sender: "Sophia Martinez",
+    message:
+      "Dear Sam, Wishing you and your family a wonderful holiday season and a happy New Year!",
+    time: "18/Dec/2025",
+    threadCount: 0,
+  },
+  {
+    id: 10,
+    avatar: "https://randomuser.me/api/portraits/men/61.jpg",
+    subject: "System Maintenance Notice",
+    sender: "David Kim",
+    message:
+      "Hello Sam, Please note that the system will undergo maintenance this weekend. Save your work and log out before 6 PM Friday.",
+    time: "17/Dec/2025",
+    threadCount: 1,
   },
 ];
 
@@ -96,13 +152,43 @@ function App() {
         {/* Top Bar */}
         <TopBar account={account} setAccount={setAccount} />
 
-        {/* Second column? */}
-        <Box sx={{ width: 450 }}>
-          {/* Email Filters */}
-          <EmailFilters />
+        <Box sx={{ display: "flex", flexGrow: 1, overflow: "hidden" }}>
+          {/* First column containing Filters and Email lists*/}
+          <Box
+            sx={{
+              width: 450,
+              display: "flex",
+              flexDirection: "column",
+              borderRight: 1,
+              borderColor: "divider",
+            }}
+          >
+            {/* Email Filters */}
+            <EmailFilters />
 
-          {/* Email List */}
-          <EmailList />
+            {/* Email List */}
+            <EmailList />
+          </Box>
+
+          {/* Second Column containing Email Content */}
+          <Box
+            sx={{
+              flexGrow: 1,
+              bgcolor: "background.default",
+              display: "flex",
+              alignItems: "center", // ← Add this for vertical center
+              justifyContent: "center", // horizontal center
+            }}
+          >
+            <Typography variant="body2" color="text.secondary">
+              Select an{" "}
+              {/* Component="span"  is same as saying <span></span> */}
+              <Typography component="span" variant="body2" color="primary">
+                email
+              </Typography>{" "}
+              to view its content
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -132,47 +218,37 @@ function SideBar() {
         <IconButton color="primary" sx={{ mb: 3 }}>
           <EditOne />
         </IconButton>
-
         {/* Inbox Button */}
         <IconButton color="primary" sx={{ mb: 3 }}>
           <EmailIcon />
         </IconButton>
-
         {/* Calender Button */}
         <IconButton sx={{ mb: 3 }}>
           <CalendarTodayIcon />
         </IconButton>
-
         {/* Contact Button */}
-
         {/* Contact Button */}
         <IconButton>
           <ContactsIcon />
         </IconButton>
-
         {/* For notification */}
         <Box sx={{ flexGrow: 1 }} />
-        <Badge badgeContent={25} color="error" sx={{ mb: 3 }}>
-          {" "}
-          {/* For notification */}
-          <NotificationsIcon />
-        </Badge>
-
+        {/* <Badge badgeContent={25} color="error" sx={{ mb: 3 }}> */}{" "}
+        {/* For notification */}
+        <NotificationsIcon />
+        {/* </Badge> */}
         {/* Theme Button */}
         <IconButton>
           <ThemeIcon />
         </IconButton>
-
         {/* Palette Button */}
         <IconButton>
           <PaletteSelectorIcon />
         </IconButton>
-
         {/* Settings Button */}
         <IconButton>
           <SettingsIcon />
         </IconButton>
-
         <Avatar src="https://randomuser.me/api/portraits/men/75.jpg" />
       </Box>
     </>
@@ -195,7 +271,7 @@ function TopBar({
         sx={{ borderBottom: 1, borderColor: "divider", px: 2 }}
       >
         {/* Logo */}
-        <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+        <Toolbar disableGutters sx={{ justifyContent: "space-between", gap: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             nanoVOLTZ
           </Typography>
@@ -215,18 +291,19 @@ function TopBar({
           {/* Search Bar */}
           <Paper
             component="form"
+            elevation={1}
             sx={{
               p: "2px 8px",
               display: "flex",
               alignItems: "center",
-              width: 300,
+              width: { xs: 200, sm: 300, md: 550 }, // Responsive width for different screen sizes
               borderRadius: 4,
               bgcolor: "background.paper",
               boxShadow: 1,
             }}
           >
             <InputBase
-              sx={{ ml: 1, flex: 1 }}
+              sx={{ ml: 1, flex: 1, height: "20px", }}
               placeholder="Global Search"
               inputProps={{ "aria-label": "search emails" }}
             />
@@ -258,7 +335,6 @@ function EmailFilters() {
           gap: 1,
         }}
       >
-        <Checkbox />
         {["All", "Read", "Today", "Unread"].map((f) => (
           <Button
             key={f}
@@ -269,6 +345,8 @@ function EmailFilters() {
             {f}
           </Button>
         ))}
+
+        {/* Why do we need clear? */}
         <Button size="small" sx={{ ml: "auto" }}>
           Clear
         </Button>
@@ -279,57 +357,81 @@ function EmailFilters() {
 
 function EmailList() {
   return (
-    <>
-      <List
-        sx={{ overflowY: "auto", flexGrow: 1, bgcolor: "background.paper" }}
-      >
-        {emails.map(
-          ({ id, avatar, sender, subject, snippet, time, unreadCount }) => (
-            <ListItem
-              key={id}
-              alignItems="flex-start"
-              secondaryAction={
-                <Box sx={{ textAlign: "right", minWidth: 70 }}>
-                  <Typography variant="caption" color="text.secondary">
+    <List
+      sx={{
+        overflowY: "auto",
+        flexGrow: 1,
+        bgcolor: "background.paper",
+      }}
+    >
+      {emails.map(
+        ({ id, avatar, sender, subject, message, time, threadCount }) => (
+          <ListItem key={id} divider button alignItems="flex-start">
+            {/* Avatar */}
+            <ListItemAvatar>
+              <Avatar alt={sender} src={avatar} />
+            </ListItemAvatar>
+
+            {/* Content */}
+            <Box sx={{ width: "100%" }}>
+              {/* Row 1: Subject + Time + ThreadCount? */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="caption" noWrap>
+                  {subject}
+                </Typography>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    flexShrink: 0,
+                  }}
+                >
+                  <Typography variant="caption" color="primary.light">
                     {time}
                   </Typography>
-                  {unreadCount && (
-                    <Badge
-                      badgeContent={unreadCount}
-                      color="primary"
-                      sx={{ mt: 0.5 }}
-                    />
+
+
+                  {threadCount > 0 && (
+                    <Badge badgeContent={threadCount} color="primary" />
                   )}
                 </Box>
-              }
-              divider
-              button
-            >
-              <ListItemAvatar>
-                <Avatar alt={sender} src={avatar} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Typography sx={{ fontWeight: "bold" }}>{sender}</Typography>
+              </Box>
+
+              {/* Row 2: Name */}
+              {/* I want darker color here (TT) */}
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: "bold", color: "primary.dark" }}
+                noWrap
+              >
+                {sender}
+              </Typography>
+
+              {/* Row 3: Message */}
+              <Typography variant="body2" color="text.secondary" noWrap>
+                {
+                  // Checks if the message is empty, if not, then checks if it longer than 100 characters, if it is,  truncates and adds "..."
+                  // else just says no preview available
+                  message
+                    ? message.length > 50
+                      ? message.substring(0, 50) + "..."
+                      : message
+                    : "No preview available"
                 }
-                secondary={
-                  <>
-                    <Typography
-                      component="span"
-                      variant="subtitle2"
-                      color="text.primary"
-                    >
-                      {subject}
-                    </Typography>
-                    {" — " + snippet}
-                  </>
-                }
-              />
-            </ListItem>
-          ),
-        )}
-      </List>
-    </>
+              </Typography>
+            </Box>
+          </ListItem>
+        ),
+      )}
+    </List>
   );
 }
 
