@@ -18,6 +18,7 @@ import {
   FormControl,
   Toolbar,
   AppBar,
+  ListItemIcon,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -25,6 +26,9 @@ import ContactsIcon from "@mui/icons-material/Contacts";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+// tESTING THEM
+import EditOne from "@mui/icons-material/ModeEditOutlined"; // Selected
 
 const emails = [
   {
@@ -104,7 +108,7 @@ function SideBar() {
       <Box
         sx={{
           width: 72,
-          bgcolor: "background.paper",
+          bgcolor: "background.paper", /* Whats paper*/
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -117,17 +121,31 @@ function SideBar() {
           src="https://randomuser.me/api/portraits/men/75.jpg"
           sx={{ width: 48, height: 48, mb: 4 }}
         />
+        {/* Edit Button */}
+        <IconButton color="primary" sx={{ mb: 3 }}>
+          <EditOne />
+        </IconButton>
+
+        {/* Inbox Button */}
         <IconButton color="primary" sx={{ mb: 3 }}>
           <EmailIcon />
         </IconButton>
+
+        {/* Calender Button */}
         <IconButton sx={{ mb: 3 }}>
           <CalendarTodayIcon />
         </IconButton>
+
+        {/* Contact Button */}
         <IconButton>
           <ContactsIcon />
         </IconButton>
+
+        {/* For notification */}
         <Box sx={{ flexGrow: 1 }} />
         <Badge badgeContent={25} color="error" sx={{ mb: 3 }}>
+          {" "}
+          {/* For notification */}
           <NotificationsIcon />
         </Badge>
         <Avatar src="https://randomuser.me/api/portraits/men/75.jpg" />
