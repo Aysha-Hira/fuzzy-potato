@@ -34,9 +34,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 // tESTING THEM
 import EditOne from "@mui/icons-material/ModeEditOutlined"; // Selected
 
-// tESTING THEM
-import EditOne from "@mui/icons-material/ModeEditOutlined"; // Selected
-
 const emails = [
   {
     id: 1,
@@ -118,7 +115,7 @@ function SideBar() {
       <Box
         sx={{
           width: 72,
-          bgcolor: "background.paper", /* Whats paper*/
+          bgcolor: "background.paper" /* Whats paper*/,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
