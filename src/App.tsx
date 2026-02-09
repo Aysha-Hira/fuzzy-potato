@@ -1,37 +1,36 @@
 import React from "react";
-import {
-  Avatar,
-  Badge,
-  Box,
-  Button,
-  IconButton,
-  InputBase,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Paper,
-  Typography,
-  MenuItem,
-  Select,
-  FormControl,
-  Toolbar,
-  AppBar,
-  ListItemIcon,
-} from "@mui/material";
+import { InputBase, Select, FormControl } from "@mui/material";
+
+// Icons
 import EmailIcon from "@mui/icons-material/Email";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ContactsIcon from "@mui/icons-material/PersonOutlined";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationsIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ThemeIcon from "@mui/icons-material/WbSunnyOutlined";
 import PaletteSelectorIcon from "@mui/icons-material/PaletteOutlined";
 import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 
+import RefreshIcon from "@mui/icons-material/AutorenewOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-// tESTING THEM
-import EditOne from "@mui/icons-material/ModeEditOutlined"; // Selected
+import EditIcon from "@mui/icons-material/ModeEditOutlined"; // Selected
+import {
+  M3Box,
+  M3IconButton,
+  M3AppBar,
+  M3Toolbar,
+  M3Button,
+  M3Avatar,
+  M3Badge,
+  M3List,
+  M3MenuItem,
+  M3ListItem,
+  M3ListItemAvatar,
+  M3Typography,
+  M3Paper,
+  M3ListItemText,
+} from "m3r";
 
 // Sample emails
 const emails = [
@@ -139,22 +138,20 @@ const emails = [
 
 function App() {
   const [account, setAccount] = React.useState("Sam Jones");
+  const [selectedEmail, setSelectedEmail] = React.useState(null);
 
   return (
-    <Box
+    <M3Box
       sx={{ display: "flex", height: "100vh", bgcolor: "background.default" }}
     >
-      {/* Sidebar */}
       <SideBar />
 
-      {/* Main Content */}
-      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        {/* Top Bar */}
+      <M3Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         <TopBar account={account} setAccount={setAccount} />
 
-        <Box sx={{ display: "flex", flexGrow: 1, overflow: "hidden" }}>
-          {/* First column containing Filters and Email lists*/}
-          <Box
+        <M3Box sx={{ display: "flex", flexGrow: 1, overflow: "hidden" }}>
+          {/* Email list column */}
+          <M3Box
             sx={{
               width: 450,
               display: "flex",
@@ -163,45 +160,28 @@ function App() {
               borderColor: "divider",
             }}
           >
-            {/* Email Filters */}
+            <InboxHeader />
             <EmailFilters />
+            <EmailList
+              selectedEmail={selectedEmail}
+              onSelectEmail={setSelectedEmail}
+            />
+          </M3Box>
 
-            {/* Email List */}
-            <EmailList />
-          </Box>
-
-          {/* Second Column containing Email Content */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              bgcolor: "background.default",
-              display: "flex",
-              alignItems: "center", // ← Add this for vertical center
-              justifyContent: "center", // horizontal center
-            }}
-          >
-            <Typography variant="body2" color="text.secondary">
-              Select an{" "}
-              {/* Component="span"  is same as saying <span></span> */}
-              <Typography component="span" variant="body2" color="primary">
-                email
-              </Typography>{" "}
-              to view its content
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+          {/* Email content column */}
+          <EmailContent email={selectedEmail} />
+        </M3Box>
+      </M3Box>
+    </M3Box>
   );
 }
 
 function SideBar() {
   return (
     <>
-      <Box
+      <M3Box
         sx={{
           width: 72,
-          bgcolor: "background.paper" /* Whats paper*/,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -210,47 +190,84 @@ function SideBar() {
           borderColor: "divider",
         }}
       >
-        <Avatar
-          src="https://randomuser.me/api/portraits/men/75.jpg"
-          sx={{ width: 48, height: 48, mb: 4 }}
-        />
+
+        {/* Icons with all colors avaailable */}
+        {/* <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>{" "}
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton> */}
+
+
+        
         {/* Edit Button */}
-        <IconButton color="primary" sx={{ mb: 3 }}>
-          <EditOne />
-        </IconButton>
+        <M3IconButton color="primary" sx={{ width: 48, height: 48, mt: 3 }}>
+          <EditIcon />
+        </M3IconButton>
         {/* Inbox Button */}
-        <IconButton color="primary" sx={{ mb: 3 }}>
-          <EmailIcon />
-        </IconButton>
+        <M3IconButton color="primary" sx={{ width: 48, height: 48 }}>
+          <EmailIcon color="primary" />
+        </M3IconButton>
         {/* Calender Button */}
-        <IconButton sx={{ mb: 3 }}>
+        <M3IconButton sx={{ color: "black", width: 48, height: 48 }}>
           <CalendarTodayIcon />
-        </IconButton>
+        </M3IconButton>
         {/* Contact Button */}
-        {/* Contact Button */}
-        <IconButton>
+        <M3IconButton sx={{ color: "black", width: 48, height: 48 }}>
           <ContactsIcon />
-        </IconButton>
+        </M3IconButton>
+        <M3Box sx={{ flexGrow: 1, width: 48, height: 48 }} />
         {/* For notification */}
-        <Box sx={{ flexGrow: 1 }} />
-        {/* <Badge badgeContent={25} color="error" sx={{ mb: 3 }}> */}{" "}
-        {/* For notification */}
-        <NotificationsIcon />
-        {/* </Badge> */}
+        <M3IconButton sx={{ color: "black", width: 48, height: 48 }}>
+          <NotificationsIcon />
+        </M3IconButton>
         {/* Theme Button */}
-        <IconButton>
+        <M3IconButton>
           <ThemeIcon />
-        </IconButton>
+        </M3IconButton>
         {/* Palette Button */}
-        <IconButton>
+        <M3IconButton>
           <PaletteSelectorIcon />
-        </IconButton>
+        </M3IconButton>
         {/* Settings Button */}
-        <IconButton>
+        <M3IconButton>
           <SettingsIcon />
-        </IconButton>
-        <Avatar src="https://randomuser.me/api/portraits/men/75.jpg" />
-      </Box>
+        </M3IconButton>
+        <M3IconButton>
+          <M3Avatar src="https://randomuser.me/api/portraits/men/75.jpg" />
+        </M3IconButton>
+      </M3Box>
     </>
   );
 }
@@ -264,17 +281,20 @@ function TopBar({
 }) {
   return (
     <>
-      <AppBar
+      <M3AppBar
         position="static"
         elevation={1}
         color="transparent"
         sx={{ borderBottom: 1, borderColor: "divider", px: 2 }}
       >
         {/* Logo */}
-        <Toolbar disableGutters sx={{ justifyContent: "space-between", gap: 2 }}>
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+        <M3Toolbar
+          disableGutters
+          sx={{ justifyContent: "space-between", gap: 2 }}
+        >
+          <M3Typography variant="titleLarge" sx={{ fontWeight: "bold" }}>
             nanoVOLTZ
-          </Typography>
+          </M3Typography>
 
           {/* User Account */}
           <FormControl sx={{ minWidth: 160 }}>
@@ -283,13 +303,13 @@ function TopBar({
               onChange={(e) => setAccount(e.target.value)}
               size="small"
             >
-              <MenuItem value="Sam Jones">Sam Jones</MenuItem>
-              <MenuItem value="Alice Doe">Alice Doe</MenuItem>
+              <M3MenuItem value="Sam Jones">Sam Jones</M3MenuItem>
+              <M3MenuItem value="Alice Doe">Alice Doe</M3MenuItem>
             </Select>
           </FormControl>
 
           {/* Search Bar */}
-          <Paper
+          <M3Paper
             component="form"
             elevation={1}
             sx={{
@@ -298,25 +318,50 @@ function TopBar({
               alignItems: "center",
               width: { xs: 200, sm: 300, md: 550 }, // Responsive width for different screen sizes
               borderRadius: 4,
-              bgcolor: "background.paper",
+              // bgcolor: "background.paper",
               boxShadow: 1,
             }}
           >
             <InputBase
-              sx={{ ml: 1, flex: 1, height: "20px", }}
+              sx={{ ml: 1, flex: 1, height: "20px" }}
               placeholder="Global Search"
               inputProps={{ "aria-label": "search emails" }}
             />
-            <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
+            <M3IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
               <SearchIcon />
-            </IconButton>
-          </Paper>
+            </M3IconButton>
+          </M3Paper>
 
-          <IconButton>
+          <M3IconButton>
             <MoreVertIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+          </M3IconButton>
+        </M3Toolbar>
+      </M3AppBar>
+    </>
+  );
+}
+
+function InboxHeader() {
+  return (
+    <>
+      <M3Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <M3IconButton sx={{ mt: 2, ml: 2, mb: 2, color: "black" }}>
+          <RefreshIcon />
+        </M3IconButton>
+        <FormControl size="small" sx={{ mt: 2, mb: 2 }}>
+          <Select value="Inbox" sx={{ height: 32 }}>
+            <M3MenuItem value="Inbox">Inbox</M3MenuItem>
+            <M3MenuItem value="Sent">Sent</M3MenuItem>
+            <M3MenuItem value="Promotions">Promotions</M3MenuItem>
+          </Select>
+        </FormControl>
+        {/* <M3Typography
+          variant="h6"
+          sx={{ fontWeight: "bold", textAlign: "center", py: 2 }}
+        >
+          Inbox
+        </M3Typography> */}
+      </M3Box>
     </>
   );
 }
@@ -325,7 +370,7 @@ function EmailFilters() {
   const [filter, setFilter] = React.useState("All");
   return (
     <>
-      <Box
+      <M3Box
         sx={{
           p: 1,
           borderBottom: 1,
@@ -336,102 +381,146 @@ function EmailFilters() {
         }}
       >
         {["All", "Read", "Today", "Unread"].map((f) => (
-          <Button
+          <M3Button
             key={f}
             variant={filter === f ? "contained" : "outlined"}
             size="small"
             onClick={() => setFilter(f)}
           >
             {f}
-          </Button>
+          </M3Button>
         ))}
 
         {/* Why do we need clear? */}
-        <Button size="small" sx={{ ml: "auto" }}>
+        <M3Button size="small" sx={{ ml: "auto" }}>
           Clear
-        </Button>
-      </Box>
+        </M3Button>
+      </M3Box>
     </>
   );
 }
 
-function EmailList() {
+function EmailList({
+  selectedEmail,
+  onSelectEmail,
+}: {
+  selectedEmail: (typeof emails)[0] | null;
+  onSelectEmail: (email: (typeof emails)[0]) => void;
+}) {
   return (
-    <List
-      sx={{
-        overflowY: "auto",
-        flexGrow: 1,
-        bgcolor: "background.paper",
-      }}
-    >
-      {emails.map(
-        ({ id, avatar, sender, subject, message, time, threadCount }) => (
-          <ListItem key={id} divider button alignItems="flex-start">
-            {/* Avatar */}
-            <ListItemAvatar>
-              <Avatar alt={sender} src={avatar} />
-            </ListItemAvatar>
+    <M3List sx={{ overflowY: "auto", flexGrow: 1 }}>
+      {emails.map((email) => (
+        <M3ListItem
+          key={email.id}
+          divider
+          alignItems="flex-start"
+          selected={selectedEmail?.id === email.id}
+          onClick={() => onSelectEmail(email)}
+        >
+          <M3ListItemAvatar>
+            <M3Avatar alt={email.sender} src={email.avatar} />
+          </M3ListItemAvatar>
 
-            {/* Content */}
-            <Box sx={{ width: "100%" }}>
-              {/* Row 1: Subject + Time + ThreadCount? */}
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Typography variant="caption" noWrap>
-                  {subject}
-                </Typography>
+          <M3ListItemText>
+            <M3Box sx={{ flex: 1, minWidth: 0 }}>
+              <M3Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <M3Typography variant="bodySmall" noWrap>
+                  {email.subject}
+                </M3Typography>
 
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                    flexShrink: 0,
-                  }}
-                >
-                  <Typography variant="caption" color="primary.light">
-                    {time}
-                  </Typography>
+                <M3Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+                  <M3Typography variant="bodySmall" color="primary.light">
+                    {email.time}
+                  </M3Typography>
 
-
-                  {threadCount > 0 && (
-                    <Badge badgeContent={threadCount} color="primary" />
+                  {email.threadCount > 0 && (
+                    <M3Badge badgeContent={email.threadCount} color="primary" />
                   )}
-                </Box>
-              </Box>
+                </M3Box>
+              </M3Box>
 
-              {/* Row 2: Name */}
-              {/* I want darker color here (TT) */}
-              <Typography
-                variant="body2"
+              <M3Typography
+                variant="bodySmall"
                 sx={{ fontWeight: "bold", color: "primary.dark" }}
                 noWrap
               >
-                {sender}
-              </Typography>
+                {email.sender}
+              </M3Typography>
 
-              {/* Row 3: Message */}
-              <Typography variant="body2" color="text.secondary" noWrap>
-                {
-                  // Checks if the message is empty, if not, then checks if it longer than 100 characters, if it is,  truncates and adds "..."
-                  // else just says no preview available
-                  message
-                    ? message.length > 50
-                      ? message.substring(0, 50) + "..."
-                      : message
-                    : "No preview available"
-                }
-              </Typography>
-            </Box>
-          </ListItem>
-        ),
-      )}
-    </List>
+              <M3Typography variant="bodySmall" color="text.secondary" noWrap>
+                {email.message.length > 50
+                  ? email.message.substring(0, 50) + "..."
+                  : email.message}
+              </M3Typography>
+            </M3Box>
+          </M3ListItemText>
+        </M3ListItem>
+      ))}
+    </M3List>
+  );
+}
+
+function EmailContent({ email }: { email: (typeof emails)[0] | null }) {
+  if (!email) {
+    return (
+      <M3Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <M3Typography variant="bodyLarge" color="text.secondary">
+          Select an{" "}
+          <M3Typography component="span" color="primary">
+            email
+          </M3Typography>{" "}
+          to view its content
+        </M3Typography>
+      </M3Box>
+    );
+  }
+
+  return (
+    <M3Box
+      sx={{
+        flexGrow: 1,
+        p: 4,
+        overflowY: "auto",
+        bgcolor: "background.default",
+      }}
+    >
+      {/* Subject */}
+      <M3Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+        <M3Avatar src={email.avatar} />
+
+        <M3Box sx={{ flexGrow: 1 }}>
+          <M3Typography variant="bodySmall" sx={{ fontWeight: "bold" }}>
+            {email.subject}
+          </M3Typography>
+        </M3Box>
+
+        <M3Typography variant="bodySmall" color="text.secondary">
+          {email.time}
+        </M3Typography>
+      </M3Box>
+
+      {/* SENDER & RECIPIENT */}
+      <M3Box sx={{ mb: 3 }}>
+        <M3Typography variant="bodySmall" color="text.secondary">
+          <strong>From:</strong> {email.sender}
+        </M3Typography>
+        <M3Typography variant="bodySmall" color="text.secondary">
+          <strong>To:</strong> Me
+        </M3Typography>
+      </M3Box>
+
+      {/* BODY */}
+      <M3Typography variant="bodySmall" sx={{ whiteSpace: "pre-line" }}>
+        {email.message}
+      </M3Typography>
+    </M3Box>
   );
 }
 
