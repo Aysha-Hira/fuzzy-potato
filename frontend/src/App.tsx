@@ -1,48 +1,50 @@
+import { FormControl, Select } from "@mui/material";
 import React from "react";
-import {
-  InputBase,
-  Select,
-  FormControl,
-  // ListItemButton
-} from "@mui/material";
 
 // Icons
 
-import ThreelinesIcon from "@mui/icons-material/MenuOutlined";
 import RefreshIcon from "@mui/icons-material/AutorenewOutlined";
-import SearchIcon from "@mui/icons-material/Search";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ThreelinesIcon from "@mui/icons-material/MenuOutlined";
 
 import {
-  M3Box,
-  M3IconButton,
-  M3AppBar,
-  M3Toolbar,
-  M3Button,
   M3Avatar,
-  M3Badge,
+  M3Box,
+  M3Button,
+  M3Checkbox,
+  M3FormControlLabel,
+  M3IconButton,
   M3List,
   M3MenuItem,
-  M3ListItem,
-  M3ListItemAvatar,
   M3Typography,
-  M3Paper,
-  M3ListItemText,
-  M3FormControlLabel,
-  M3Checkbox,
 } from "m3r";
-import type { Email } from "./types/email";
 import { Sidebar } from "./components/sidebar";
+import type { Email } from "./types/email";
 
 // Sample emails
-import { emails } from "./data/email";
-import { Navbar } from "./components/navbar";
 import { EmailListItem } from "./components/emailListItem";
+import { Navbar } from "./components/navbar";
+import { emails } from "./data/email";
 
 function App() {
   const [account, setAccount] = React.useState("Sam Jones");
   const [selectedEmail, setSelectedEmail] = React.useState<Email | null>(null);
   const [filter, setFilter] = React.useState("All");
+  const [emails, setEmails] = React.useState<Email[]>([]);
+
+  React.useEffect(() => {
+    async function fetchEmails() {
+      try {
+        const response = await fetch("http://localhost:3000/emails"); // your backend endpoint
+        if (!response.ok) throw new Error("Failed to fetch emails");
+        const data = await response.json();
+        setEmails(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchEmails();
+  }, []);
 
   return (
     <M3Box display={"flex"} height={"100vh"} padding={"5px"}>
@@ -60,15 +62,6 @@ function App() {
           }}
         >
           {/* Email list column */}
-          {/* <M3Box
-            maxWidth={450}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              borderRight: 1,
-              borderColor: "divider",
-            }}
-       */}
           <M3Box
             sx={{
               width: 450,
@@ -82,6 +75,7 @@ function App() {
             <InboxHeader />
             <EmailFilters filters={filter} setFilters={setFilter} />
             <EmailList
+              emails={emails}
               selectedEmail={selectedEmail}
               onSelectEmail={setSelectedEmail}
               filter={filter}
@@ -95,75 +89,6 @@ function App() {
     </M3Box>
   );
 }
-
-// function TopBar({
-//   account,
-//   setAccount,
-// }: {
-//   account: string;
-//   setAccount: (a: string) => void;
-// }) {
-//   return (
-//     <>
-//       <M3AppBar
-//         position="static"
-//         // elevation={1}
-//         color="transparent"
-//         sx={{ borderBottom: 1, borderColor: "divider", px: 2 }}
-//       >
-//         {/* Logo */}
-//         <M3Toolbar
-//           disableGutters
-//           sx={{ justifyContent: "space-between", gap: 2 }}
-//         >
-//           <M3Typography variant="titleLarge" sx={{ fontWeight: "bold" }}>
-//             nanoVOLTZ
-//           </M3Typography>
-
-//           {/* User Account */}
-//           <FormControl sx={{ minWidth: 160 }}>
-//             <Select
-//               value={account}
-//               onChange={(e) => setAccount(e.target.value)}
-//               size="small"
-//             >
-//               <M3MenuItem value="Sam Jones">Sam Jones</M3MenuItem>
-//               <M3MenuItem value="Alice Doe">Alice Doe</M3MenuItem>
-//             </Select>
-//           </FormControl>
-
-//           {/* Search Bar */}
-//           <M3Paper
-//             component="form"
-//             elevation={1}
-//             sx={{
-//               p: "2px 8px",
-//               display: "flex",
-//               alignItems: "center",
-//               width: { xs: 200, sm: 300, md: 550 }, // Responsive width for different screen sizes
-//               borderRadius: 4,
-//               // bgcolor: "background.paper",
-//               boxShadow: 1,
-//             }}
-//           >
-//             <InputBase
-//               sx={{ ml: 1, flex: 1, height: "20px" }}
-//               placeholder="Global Search"
-//               inputProps={{ "aria-label": "search emails" }}
-//             />
-//             <M3IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
-//               <SearchIcon />
-//             </M3IconButton>
-//           </M3Paper>
-
-//           <M3IconButton>
-//             <MoreVertIcon />
-//           </M3IconButton>
-//         </M3Toolbar>
-//       </M3AppBar>
-//     </>
-//   );
-// }
 
 function InboxHeader() {
   const [folder, setFolder] = React.useState("Inbox");
@@ -341,11 +266,55 @@ function EmailContent({ email }: { email: (typeof emails)[0] | null }) {
 }
 
 // Almost correct version: Problem, clickable causes issues with uniform width
+// function EmailList({
+//   selectedEmail,
+//   onSelectEmail,
+//   filter,
+// }: {
+//   selectedEmail: Email | null;
+//   onSelectEmail: (email: Email) => void;
+//   filter: string;
+// }) {
+//   const filteredEmails = emails.filter((email) => {
+//     if (filter === "All") return true;
+//     if (filter === "Read") return email.isRead;
+//     if (filter === "Unread") return !email.isRead;
+//     if (filter === "Today") {
+//       const today = new Date().toDateString();
+//       return email.time instanceof Date && email.time.toDateString() === today;
+//     }
+//     return true;
+//   });
+//   return (
+//     <>
+//       <M3List
+//         sx={{
+//           overflowY: "auto",
+//           flexGrow: 1,
+//           display: "flex", // ⭐ make list flex
+//           flexDirection: "column", // ⭐ vertical
+//         }}
+//       >
+//         {filteredEmails.map((email) => (
+//           <EmailListItem
+//             key={email.id}
+//             email={email}
+//             selected={selectedEmail?.id === email.id}
+//             onClick={() => onSelectEmail(email)}
+//           />
+//         ))}
+//       </M3List>
+//     </>
+//   );
+// }
+
 function EmailList({
+  emails,
   selectedEmail,
   onSelectEmail,
   filter,
 }: {
+  emails: Email[];
   selectedEmail: Email | null;
   onSelectEmail: (email: Email) => void;
   filter: string;
@@ -360,92 +329,25 @@ function EmailList({
     }
     return true;
   });
+
   return (
-    <>
-      <M3List
-        sx={{
-          overflowY: "auto",
-          flexGrow: 1,
-          display: "flex", // ⭐ make list flex
-          flexDirection: "column", // ⭐ vertical
-        }}
-      >
-        {filteredEmails.map((email) => (
-          // <M3ListItem
-          //   key={email.id}
-          //   divider
-          //   alignItems="flex-start"
-          //   selected={selectedEmail?.id === email.id}
-          //   onClick={() => onSelectEmail(email)}
-          //   clickable
-          //   component={"li"}
-          //   sx={{
-          //     width: "100%",
-          //     display: "flex !important",
-          //     flexGrow: 1,
-          //   }}
-          // >
-          //   <M3ListItemAvatar>
-          //     <M3Avatar alt={email.sender} src={email.avatar} />
-          //   </M3ListItemAvatar>
-
-          //   <M3ListItemText>
-          //     <M3Box sx={{ flex: 1, minWidth: 0 }}>
-          //       <M3Box
-          //         sx={{ display: "flex", justifyContent: "space-between" }}
-          //       >
-          //         <M3Typography variant="bodySmall" noWrap>
-          //           {email.subject}
-          //         </M3Typography>
-
-          //         <M3Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-          //           <M3Typography variant="bodySmall" color="primary.light">
-          //             {email.time instanceof Date
-          //               ? email.time.toLocaleTimeString([], {
-          //                   hour: "2-digit",
-          //                   minute: "2-digit",
-          //                 })
-          //               : email.time}
-          //           </M3Typography>
-
-          //           {email.threadCount > 0 && (
-          //             <M3Badge
-          //               badgeContent={email.threadCount}
-          //               color="primary"
-          //             />
-          //           )}
-          //         </M3Box>
-          //       </M3Box>
-
-          //       <M3Typography
-          //         variant="bodySmall"
-          //         sx={{ fontWeight: "bold", color: "primary.dark" }}
-          //         noWrap
-          //       >
-          //         {email.sender}
-          //       </M3Typography>
-
-          //       <M3Typography variant="bodySmall" color="text.secondary" noWrap>
-          //         {email.message
-          //           ? email.message.length > 50
-          //             ? email.message.substring(0, 50) + "..."
-          //             : email.message
-          //           : "No preview available"}
-          //       </M3Typography>
-          //     </M3Box>
-          //   </M3ListItemText>
-          // </M3ListItem>
-
-
-          <EmailListItem
-            key={email.id}
-            email={email}
-            selected={selectedEmail?.id === email.id}
-            onClick={() => onSelectEmail(email)}
-           />
-        ))}
-      </M3List>
-    </>
+    <M3List
+      sx={{
+        overflowY: "auto",
+        flexGrow: 1,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {filteredEmails.map((email) => (
+        <EmailListItem
+          key={email.id}
+          email={email}
+          selected={selectedEmail?.id === email.id}
+          onClick={() => onSelectEmail(email)}
+        />
+      ))}
+    </M3List>
   );
 }
 
