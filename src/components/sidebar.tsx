@@ -21,6 +21,7 @@ export function Sidebar() {
       gap={22 / adjustGapNum}
       textAlign={"center"}
       position="static"
+      width={65}
     >
       <M3Stack>
         <M3FAB>
