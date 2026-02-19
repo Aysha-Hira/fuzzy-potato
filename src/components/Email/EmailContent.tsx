@@ -17,7 +17,7 @@ import {
   Archive as ArchiveIcon,
   Attachment as AttachmentIcon,
 } from "@mui/icons-material";
-import type { Email } from "../types/email";
+import type { Email } from "../../types/email";
 
 interface EmailContentProps {
   email: Email | null;
@@ -139,7 +139,7 @@ export function EmailContent({
       {/* Email Header */}
       <M3Box sx={{ display: "flex", alignItems: "flex-start", gap: 2, mb: 3 }}>
         <M3Avatar src={email.avatar} sx={{ width: 56, height: 56 }}>
-          {email.sender[0]}
+          {email.sender.replace("\"", "").charAt(0).toUpperCase()}
         </M3Avatar>
 
         <M3Box sx={{ flexGrow: 1 }}>

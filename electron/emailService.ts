@@ -152,7 +152,9 @@ class EmailService {
                 flags.includes("\\Deleted"),
             };
 
+             console.log(email);
             emails.push(email);
+           
           } catch (parseError) {
             console.error("📧 Error parsing email:", parseError);
           }
